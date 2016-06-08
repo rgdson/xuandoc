@@ -26,8 +26,8 @@ ENV CELERY_RESULT_BACKEND redis://redis:6379/0
 ENV C_FORCE_ROOT true
 
 # Upgrade PIP AND Install PIP Tools
-pip install upgrade pip
-pip install redis
+RUN pip install --upgrade pip
+RUN pip install redis
 
 
 # Copy the application folder inside the container
@@ -39,7 +39,7 @@ WORKDIR /carloha_market
 
 
 # Get pip to download and install requirements:
-RUN pip install -y -r /carloha_market/requirements.txt
+RUN pip install -r /carloha_market/requirements.txt
 
 # Expose ports
 #EXPOSE 80
