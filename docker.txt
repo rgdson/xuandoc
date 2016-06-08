@@ -31,11 +31,11 @@ RUN pip install redis
 
 
 # Copy the application folder inside the container
-# ADD /carloha_market /carloha_market
+ADD /carloha_market /carloha_market
 
 # copy source code
-COPY . /carloha_market
-WORKDIR /carloha_market
+#COPY . /carloha_market
+#WORKDIR /carloha_market
 
 
 # Get pip to download and install requirements:
