@@ -7,7 +7,7 @@
 FROM ubuntu
 
 # File Author / Maintainer
-Carloha celery
+MAINTAINER carloha xuan
 
 # Add the application resources URL
 #RUN echo "deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -#sc) main universe" >> /etc/apt/sources.list
@@ -18,9 +18,6 @@ RUN apt-get update
 # Install basic applications
 RUN apt-get install -y vim tar git curl nano wget dialog net-tools build-essential
 
-
-#RUN apt-get install postgresql
-RUN apt-get install redis-server
 
 # Install Python and Basic Python Tools
 RUN apt-get install -y python python-pip
@@ -40,8 +37,6 @@ RUN pip install -r /carloha_market/requirements.txt
 
 # Expose ports
 EXPOSE 80
-EXPOSE 5000
-EXPOSE 5001
 
 # Set the default directory where CMD will execute
 WORKDIR /carloha_market
