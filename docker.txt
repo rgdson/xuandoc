@@ -9,34 +9,41 @@ FROM ubuntu
 # File Author / Maintainer
 MAINTAINER carloha xuan
 
-# Add the application resources URL
-#RUN echo "deb http://archive.ubuntu.com/ubuntu/ $(lsb_release -#sc) main universe" >> /etc/apt/sources.list
-
 # Update the sources list
 RUN apt-get update
 
 # Install basic applications
-RUN apt-get install -y vim tar git curl nano wget dialog net-tools build-essential
+RUN apt-get install -y vim
 
 
 # Install Python and Basic Python Tools
-RUN apt-get install -y python python-pip
+RUN apt-get install -y python python-pip python-dev
 RUN apt-get install libsqlite3-dev
 RUN apt-get install libpq-dev
 
+ENV CELERY_BROKER_URL redis://redis:6379/0
+ENV CELERY_RESULT_BACKEND redis://redis:6379/0
+ENV C_FORCE_ROOT true
+
 # Upgrade PIP AND Install PIP Tools
-pip install --upgrade pip
+pip install upgrade pip
 pip install redis
+
 
 # Copy the application folder inside the container
 # ADD /carloha_market /carloha_market
-git clone https://xuanguo@bitbucket.org/pscarloha/carloha_market.git
+
+# copy source code
+COPY . /carloha_market
+WORKDIR /carloha_market
+
 
 # Get pip to download and install requirements:
 RUN pip install -r /carloha_market/requirements.txt
 
 # Expose ports
-EXPOSE 80
+#EXPOSE 80
+
 
 # Set the default directory where CMD will execute
 WORKDIR /carloha_market
@@ -46,3 +53,10 @@ WORKDIR /carloha_market
 # i.e. using CherryPy to serve the application
 CMD celery worker -A run_worker_server.celery -l info &
 CMD celery beat -A run_worker_server.celery -l info &
+
+
+
+# run the worker
+#ENTRYPOINT ['celery']
+#CMD ['-A','tasks', 'worker','--loglevel=info']
+#ENTRYPOINT celery -A tasks worker --loglevel=info
