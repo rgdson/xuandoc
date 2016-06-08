@@ -10,7 +10,7 @@ FROM ubuntu
 MAINTAINER carloha xuan
 
 # Update the sources list
-RUN apt-get update
+RUN apt-get update -y
 
 # Install basic applications
 RUN apt-get install -y vim
@@ -18,8 +18,8 @@ RUN apt-get install -y vim
 
 # Install Python and Basic Python Tools
 RUN apt-get install -y python python-pip python-dev
-RUN apt-get install libsqlite3-dev
-RUN apt-get install libpq-dev
+RUN apt-get install -y libsqlite3-dev
+RUN apt-get install -y libpq-dev
 
 ENV CELERY_BROKER_URL redis://redis:6379/0
 ENV CELERY_RESULT_BACKEND redis://redis:6379/0
@@ -39,7 +39,7 @@ WORKDIR /carloha_market
 
 
 # Get pip to download and install requirements:
-RUN pip install -r /carloha_market/requirements.txt
+RUN pip install -y -r /carloha_market/requirements.txt
 
 # Expose ports
 #EXPOSE 80
